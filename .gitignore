@@ -1,0 +1,49 @@
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+secrets.toml
+
+# User conversations, diaries, settings and exports
+data/private/
+data/local/
+chat_history.json
+*chat_history*.json
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.db
+*.db-*
+exports/
+diary_exports/
+
+# Environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+node_modules/
+
+# Local tools, logs, backups and screenshots from development
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.zip
+review_artifacts/
+backups/
+.backups/
+tests/.tmp/

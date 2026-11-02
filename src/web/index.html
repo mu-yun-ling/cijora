@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f6f1e7" />
+    <meta
+      name="description"
+      content="Cijora · 此间絮语：自定义智能体、自在对话，把每天的交谈留成回忆。"
+    />
+    <title>Cijora · 此间絮语</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/style.css" />
+    <link rel="stylesheet" href="/assets/atelier.css" />
+    <script type="module" src="/assets/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <button class="sidebar-scrim" id="scrim" aria-label="关闭导航"></button>
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#chat" aria-label="Cijora · 此间絮语，返回对话">
+          <span class="brand-mark" aria-hidden="true"
+            ><img
+              src="/assets/art/deer-companion.png"
+              alt=""
+              width="1280"
+              height="1280"
+          /></span>
+          <span class="brand-word">此间絮语<small>Cijora · 对话与日记</small></span>
+        </a>
+        <button id="new-chat" class="new-chat">
+          <span data-icon="plus"></span>新对话
+        </button>
+        <nav class="nav" aria-label="主导航">
+          <button data-view="chat"><span data-icon="chat"></span>对话</button>
+          <button data-view="agents">
+            <span data-icon="agents"></span>智能体
+          </button>
+          <button data-view="diary">
+            <span data-icon="book"></span>我们的日记<span
+              class="nav-dot"
+              id="diary-dot"
+              hidden
+            ></span>
+          </button>
+          <button class="settings-nav" data-view="settings">
+            <span data-icon="settings"></span>设置<span
+              class="connection-dot"
+              id="connection-dot"
+            ></span>
+          </button>
+        </nav>
+        <div class="history-heading">
+          <span>最近对话</span
+          ><button class="icon-button" id="search-toggle" aria-label="搜索对话">
+            <span data-icon="search"></span>
+          </button>
+        </div>
+        <label class="search-field" id="history-search" hidden
+          ><span data-icon="search"></span
+          ><input
+            id="search-input"
+            placeholder="搜索对话…"
+            maxlength="100"
+            aria-label="搜索对话"
+        /></label>
+        <div class="history-list" id="history-list"></div>
+        <figure class="sidebar-corner" aria-hidden="true">
+          <img src="/assets/art/sleepy-corner.png" alt="" width="1536" height="1024" />
+        </figure>
+      </aside>
+      <main id="main" class="main" tabindex="-1">
+        <div class="boot-state">
+          <span class="loading-spinner"></span><span>正在打开你的空间…</span>
+        </div>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <dialog id="agent-dialog" class="dialog agent-dialog">
+      <form id="agent-form">
+        <header class="dialog-heading">
+          <div>
+            <h2 id="agent-dialog-title">创建智能体</h2>
+          </div>
+          <button
+            type="button"
+            class="icon-button dialog-close"
+            aria-label="关闭"
+          >
+            <span data-icon="x"></span>
+          </button>
+        </header>
+        <div class="design-tabs">
+          <button type="button" class="active" data-design="manual">
+            自己写设定</button
+          ><button type="button" data-design="ai">
+            <span data-icon="sparkles"></span>让 AI 帮我设计
+          </button>
+        </div>
+        <section id="design-panel" class="design-panel" hidden>
+          <label for="agent-description">你想和什么样的角色聊天？</label
+          ><textarea
+            id="agent-description"
+            rows="3"
+            maxlength="6000"
+            placeholder="比如：一个在旧书店打工的朋友，爱看烂科幻，嘴有点损。别动不动安慰我，能接我的吐槽，也能认真聊书。"
+          ></textarea>
+          <div class="design-action">
+            <span>会写出性格、说话习惯和对白样例。</span
+            ><button type="button" class="button secondary" id="design-agent">
+              <span data-icon="sparkles"></span>生成设定
+            </button>
+          </div>
+        </section>
+        <div class="form-grid">
+          <label
+            >名字<input
+              name="name"
+              maxlength="32"
+              required
+              placeholder="想怎么称呼它？" /></label
+          ><label
+            >一句话介绍<input
+              name="tagline"
+              maxlength="160"
+              placeholder="比如：爱挑刺，也爱看烂科幻"
+          /></label>
+        </div>
+        <label
+          >核心设定<textarea
+            name="instructions"
+            rows="7"
+            maxlength="16000"
+            required
+            placeholder="它是谁？有什么偏好、小毛病？同一件事，它会怎么说？可以写两句对白给它参考。"
+          ></textarea><span class="field-hint">具体的反应比“温柔、幽默”更有用。比如：不急着劝我，会先跟我一起吐槽。</span>
+        </label>
+        <details class="advanced">
+          <summary>开场与外观<span data-icon="chevron"></span></summary>
+          <label
+            >第一句话<textarea
+              name="greeting"
+              rows="2"
+              maxlength="1200"
+              placeholder="可以留空"
+            ></textarea></label
+          ><label
+            >开场建议<span class="label-note">每行一个，最多4个</span
+            ><textarea
+              name="starters"
+              rows="3"
+              placeholder="今天累死了&#10;你看过最离谱的科幻设定是什么"
+            ></textarea></label
+          ><label class="color-row"
+            >头像颜色<input name="color" type="color" value="#71806a"
+          /></label>
+        </details>
+        <div class="form-error" id="agent-error" role="alert"></div>
+        <footer class="dialog-footer">
+          <button
+            type="button"
+            class="button danger-quiet"
+            id="archive-agent"
+            hidden
+          >
+            归档智能体</button
+          ><span></span
+          ><button type="button" class="button ghost dialog-close">取消</button
+          ><button class="button primary" type="submit" id="save-agent">
+            创建智能体
+          </button>
+        </footer>
+      </form>
+    </dialog>
+    <dialog id="rename-dialog" class="dialog small-dialog">
+      <form id="rename-form">
+        <header class="dialog-heading">
+          <h2>重命名对话</h2>
+          <button
+            type="button"
+            class="icon-button dialog-close"
+            aria-label="关闭"
+          >
+            <span data-icon="x"></span>
+          </button>
+        </header>
+        <label>对话名称<input name="title" required maxlength="80" /></label>
+        <footer class="dialog-footer">
+          <span></span
+          ><button type="button" class="button ghost dialog-close">取消</button
+          ><button class="button primary">保存</button>
+        </footer>
+      </form>
+    </dialog>
+  </body>
+</html>
